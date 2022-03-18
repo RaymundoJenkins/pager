@@ -1,0 +1,7 @@
+
+Key-Type: DSA
+Key-Length: 3072
+Subkey-Type: ELG-E
+Subkey-Length: 1024
+Name-Comment: weekly rotation
+Expire-Date: 1w

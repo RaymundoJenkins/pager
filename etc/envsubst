@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+# extrsact
+
+# chmod 700 /root/.gnupg
+# chmod 700 /root/.password-store
+# chmod 700 /root/.abook
+#
+envsubst "$(cat /root/envsubst/key.dyno)" < /root/envsubst/infile >> /root/envsubst/key.stat
+
