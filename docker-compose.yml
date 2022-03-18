@@ -1,0 +1,41 @@
+version: '3'
+services:
+  pass:
+    image: pass
+    command: sh # fixme: pass commands only work when running container, perhaps init pass and run show commands only during backup
+    volumes:
+      - gnupg:/root/.gnupg
+      - pass:/root/.password-store
+  abook:
+    image: abook
+    command: abook
+    volumes:
+      - abook:/root/.abook
+  gnupg:
+    image: gnupg
+    command: gpg --batch --generate-key "/root/envsubst/key.stat"
+    volumes:
+      - envsubst:/root/envsubst
+      - gnupg:/root/.gnupg
+  envsubst:
+    image: gettext
+    command: /envsubst/envsubst
+    environment:
+      - GIT_USER=${GIT_USER}
+      - GIT_EMAIL=${GIT_EMAIL}
+      - PASSPHRASE=${PASSPHRASE}
+    volumes:
+      - ./etc:/usr/profile
+      - envsubst:/root/envsubst
+
+volumes:
+  pass:
+    external: true
+  abook:
+    external: true
+  gnupg:
+    external: true
+  envsubst:
+    external: true
+  restic:
+    external: true
