@@ -8,13 +8,12 @@ VOLUMES += $(actor)
 ENVIRONMENT_VARIABLES = "GIT_USER=$(git_user)\nGIT_EMAIL=$(git_email)\nPASSPHRASE=$(passphrase)\n"
 
 
-default: volumes #alpine_packages $(actor)
-volumes: $(VOLUMES)
+default: volumes alpine_packages
 alpine_packages: $(ALPINE_PACKAGES)
 
 
-$(VOLUMES):
-	docker volume create --name $@
+volumes: $(VOLUMES)
+	for volume in $?; do docker volume create --name $$volume; done
 
 %.env:
 	@echo $(ENVIRONMENT_VARIABLES) > $@

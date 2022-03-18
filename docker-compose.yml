@@ -19,7 +19,7 @@ services:
       - gnupg:/root/.gnupg
   envsubst:
     image: gettext
-    command: /envsubst/envsubst
+    command: /root/envsubst/envsubst
     environment:
       - GIT_USER=${GIT_USER}
       - GIT_EMAIL=${GIT_EMAIL}
@@ -29,8 +29,7 @@ services:
       - envsubst:/root/envsubst
 
 volumes:
-  pass:
-    external: true
+  pass: {}
   abook:
     external: true
   gnupg:
