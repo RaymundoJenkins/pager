@@ -28,13 +28,26 @@ services:
       - ./etc:/usr/profile
       - envsubst:/root/envsubst
 
+  restic:
+    image: restic
+    command: restic backup $DATA --tag $PROJECT --tag $GIT_USER
+    environment:
+      - PROJECT=${PROJECT}
+      - GIT_USER=${GIT_USER}
+      - RESTIC_REPOSITORY=/usr/local/restic
+      - RESTIC_PASSWORD_COMMAND='pass show restic'
+      - DATA='/root/.password-store /root/.abook /root/.gnupg /root/envsubst'
+    volumes:
+      - pass:/root/.password-store
+      - abook:/root/.abook
+      - gnupg:/root/.gnupg
+      - envsubst:/root/envsubst
+      - restic:/usr/local/restic
+
 volumes:
   pass: {}
-  abook:
-    external: true
-  gnupg:
-    external: true
-  envsubst:
-    external: true
+  abook: {}
+  gnupg: {}
+  envsubst: {}
   restic:
     external: true

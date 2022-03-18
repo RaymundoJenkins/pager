@@ -1,3 +1,4 @@
+git_user ?= $(GIT_USER)
 actor = $(git_user)
 .PHONY: $(actor)
 
@@ -6,6 +7,11 @@ ALPINE_PACKAGES = pass abook gnupg restic #mutt calcurse # editor
 VOLUMES = $(ALPINE_PACKAGES)
 VOLUMES += $(actor)
 ENVIRONMENT_VARIABLES = "GIT_USER=$(git_user)\nGIT_EMAIL=$(git_email)\nPASSPHRASE=$(passphrase)\n"
+
+project = $(PROJECT)
+
+run\:$(component):
+	docker compose --project-name $(project)-$(actor) run --rm $(component)
 
 
 default: volumes alpine_packages
