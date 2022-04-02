@@ -2,7 +2,7 @@ version: '3'
 services:
   pass:
     image: pass
-    command: sh # fixme: pass commands only work when running container, perhaps init pass and run show commands only during backup
+    command: sh
     volumes:
       - gnupg:/root/.gnupg
       - pass:/root/.password-store
@@ -31,12 +31,14 @@ services:
   restic:
     image: restic
     command: restic backup $DATA --tag $PROJECT --tag $GIT_USER
+    ports:
+      - 8000
     environment:
       - PROJECT=${PROJECT}
       - GIT_USER=${GIT_USER}
-      - RESTIC_REPOSITORY=/usr/local/restic
-      - RESTIC_PASSWORD_COMMAND='pass show restic'
-      - DATA='/root/.password-store /root/.abook /root/.gnupg /root/envsubst'
+      - RESTIC_REPOSITORY=${RESTIC_REPOSITORY}
+      - RESTIC_PASSWORD=${RESTIC_PASSWORD}
+      - DATA=${DATA}
     volumes:
       - pass:/root/.password-store
       - abook:/root/.abook
@@ -49,5 +51,4 @@ volumes:
   abook: {}
   gnupg: {}
   envsubst: {}
-  restic:
-    external: true
+  restic: {}

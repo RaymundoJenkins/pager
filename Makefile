@@ -11,7 +11,7 @@ ENVIRONMENT_VARIABLES = "GIT_USER=$(git_user)\nGIT_EMAIL=$(git_email)\nPASSPHRAS
 project = $(PROJECT)
 
 run\:$(component):
-	docker compose --project-name $(project)-$(actor) run --rm $(component)
+	docker compose --env-file $(project).env --project-name $(project)-$(actor) run --rm $(component)
 
 
 default: volumes alpine_packages
